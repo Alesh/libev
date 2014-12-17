@@ -676,7 +676,7 @@ else
 
 version(LIBEV4)
 {
-    void ev_run (/*mixin(EV_P_)*/ ev_loop_t* loop, int flags);
+    bool ev_run (/*mixin(EV_P_)*/ ev_loop_t* loop, int flags);
     void ev_break (/*mixin(EV_P_)*/ ev_loop_t* loop, int how); /* set to 1 to break out of event loop, set to 2 to break out of all event loops */
 }
 else
