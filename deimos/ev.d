@@ -117,7 +117,7 @@ version(EV_MULTIPLICITY)
     enum EV_DEFAULT_UC = "ev_default_loop_uc()";   /* the default loop, if initialised, as sole arg */
     enum EV_DEFAULT_UC_ = EV_DEFAULT_UC;           /* the default loop as first of multiple arguments */
     enum EV_DEFAULT = "ev_default_loop(0)";        /* the default loop as sole arg */
-    enum EV_DEFAULT_ = EV_DEFAULT;                 /* the default loop as first of multiple arguments */             
+    enum EV_DEFAULT_ = EV_DEFAULT;                 /* the default loop as first of multiple arguments */
 }
 else
 {
@@ -283,7 +283,7 @@ version(EV_PERIODIC_ENABLE)
     struct ev_periodic
     {
       mixin EV_WATCHER_TIME!(ev_periodic);
-    
+
       ev_tstamp offset; /* rw */
       ev_tstamp interval; /* rw */
       ev_tstamp function(ev_periodic *w, ev_tstamp now) reschedule_cb; /* rw */
@@ -330,19 +330,19 @@ version(EV_STAT_ENABLE)
     {
         static assert(false, "EV_STAT_ENABLE not supported on this platform");
     }
-    
+
     /* invoked each time the stat data changes for a given path
      revent EV_STAT */
     struct ev_stat
     {
       mixin EV_WATCHER_LIST!(ev_stat);
-    
+
       ev_timer timer;     /* private */
       ev_tstamp interval; /* ro */
       const (char)* path;   /* ro */
       ev_statdata prev;   /* ro */
       ev_statdata attr;   /* ro */
-    
+
       int wd; /* wd for inotify, fd for kqueue */
     }
 }
@@ -402,7 +402,7 @@ version(EV_EMBED_ENABLE)
     struct ev_embed
     {
       mixin EV_WATCHER!(ev_embed);
-    
+
       ev_loop_t *other; /* ro */
       ev_io io;              /* private */
       ev_prepare prepare;    /* private */
@@ -428,7 +428,7 @@ version(EV_ASYNC_ENABLE)
     struct ev_async
     {
       mixin EV_WATCHER!(ev_async);
-    
+
       EV_ATOMIC_T sent; /* private */
     }
     //
@@ -441,7 +441,7 @@ version(EV_ASYNC_ENABLE)
     }
 }
 
-/+ ***************Not supported in D***************** 
+/+ ***************Not supported in D*****************
 /* the presence of this union forces similar struct layout */
 union ev_any_watcher
 {
@@ -561,21 +561,21 @@ version(EV_MULTIPLICITY)
     else
     {
         ev_loop_t* ev_default_loop_init(uint flags);
-        /* the default loop is the only one that handles signals and child watchers 
+        /* the default loop is the only one that handles signals and child watchers
          you can call this as often as you like */
         ev_loop_t *ev_default_loop(uint flags)
         {
           ev_loop_t* loop = ev_default_loop_uc();
-        
+
           if (!loop)
             {
               loop = ev_default_loop_init(flags);
             }
-        
+
           return loop;
         }
     }
-    
+
     /* create and destroy alternative loops that don't handle signals */
     ev_loop_t* ev_loop_new (uint flags);
     version(LIBEV4){}
@@ -584,7 +584,7 @@ version(EV_MULTIPLICITY)
         void ev_loop_destroy (/*mixin(EV_P)*/ ev_loop_t* loop);
         void ev_loop_fork (/*mixin(EV_P)*/ ev_loop_t* loop);
     }
-    
+
     ev_tstamp ev_now (/*mixin(EV_P)*/ ev_loop_t* loop); /* time w.r.t. timers and the eventloop, updated after each poll */
 }
 else
@@ -624,7 +624,7 @@ version(LIBEV4)
 else
 {
     void ev_default_destroy(); /* destroy the default loop */
-    
+
     /* this needs to be called after fork, to duplicate the default loop
     * if you create alternative loops you have to call ev_loop_t_fork on them
     * you can call it in either the parent or the child
@@ -651,7 +651,7 @@ version(LIBEV4)
       EVRUN_NOWAIT = 1, /** do not block/wait */
       EVRUN_ONCE   = 2  /** block *once* only */
     }
-    
+
     /* ev_break how values */
     enum {
       EVBREAK_CANCEL = 0, /** undo unloop */
@@ -676,7 +676,7 @@ else
 
 version(LIBEV4)
 {
-    bool ev_run (/*mixin(EV_P_)*/ ev_loop_t* loop, int flags);
+    int ev_run (/*mixin(EV_P_)*/ ev_loop_t* loop, int flags);
     void ev_break (/*mixin(EV_P_)*/ ev_loop_t* loop, int how); /* set to 1 to break out of event loop, set to 2 to break out of all event loops */
 }
 else
@@ -713,19 +713,19 @@ version(ENABLE_ADDITIONAL_FEATURES)
         uint ev_loop_depth  (/*mixin(EV_P)*/ ev_loop_t* loop); /* #ev_loop_t enters - #ev_loop_t leaves */
         void ev_loop_verify (/*mixin(EV_P)*/ ev_loop_t* loop); /* abort if loop data corrupted */
     }
-    
+
     void ev_set_io_collect_interval (/*mixin(EV_P_)*/ ev_loop_t* loop, ev_tstamp interval); /* sleep at least this time, default 0 */
     void ev_set_timeout_collect_interval (/*mixin(EV_P_)*/ ev_loop_t* loop, ev_tstamp interval); /* sleep at least this time, default 0 */
-    
+
     /* advanced stuff for threading etc. support, see docs */
     void ev_set_userdata (/*mixin(EV_P_)*/ ev_loop_t* loop, void *data);
     void *ev_userdata (/*mixin(EV_P)*/ ev_loop_t* loop);
     void ev_set_invoke_pending_cb (/*mixin(EV_P_)*/ ev_loop_t* loop, void function(/*mixin(EV_P)*/ ev_loop_t* loop) invoke_pending_cb);
     void ev_set_loop_release_cb (/*mixin(EV_P_)*/ ev_loop_t* loop, void function(/*mixin(EV_P)*/ ev_loop_t* loop) release, void function(/*mixin(EV_P)*/ ev_loop_t* loop) acquire);
-    
+
     uint ev_pending_count (/*mixin(EV_P)*/ ev_loop_t* loop); /* number of pending events, if any */
     void ev_invoke_pending (/*mixin(EV_P)*/ ev_loop_t* loop); /* invoke all pending watchers */
-    
+
     /*
      * stop/start the timer handling.
      */
@@ -795,7 +795,7 @@ version(LIBEV4)
     version(EV_CLEANUP_ENABLE)
     {
         void ev_cleanup_set(ev_cleanup* w){}; /* nop, yes, this is a serious in-joke */
-    }            
+    }
 }
 void ev_async_set(ev_async* w) /* nop, yes, this is a serious in-joke */
 {
@@ -1027,7 +1027,7 @@ version(LIBEV4)
 {
     version(LIBEV3_COMPAT)
     {
-        alias EVRUN_NOWAIT EVLOOP_NONBLOCK; 
+        alias EVRUN_NOWAIT EVLOOP_NONBLOCK;
         alias EVRUN_ONCE EVLOOP_ONESHOT;
         alias EVBREAK_CANCEL EVUNLOOP_CANCEL;
         alias EVBREAK_ONE EVUNLOOP_ONE;
